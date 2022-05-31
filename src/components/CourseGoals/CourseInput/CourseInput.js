@@ -10,18 +10,31 @@ const CourseInput = props => {
     setEnteredValue(event.target.value);
   };
 
+  const isEmptyInput = () => {
+    if (enteredValue.trim().length === 0) {
+      return true
+    }
+    return false
+  }
+
   const formSubmitHandler = event => {
     event.preventDefault();
+    if (isEmptyInput()) {
+      return;
+    }
     props.onAddGoal(enteredValue);
+    setEnteredValue('')
   };
 
   return (
     <form onSubmit={formSubmitHandler}>
       <div className="form-control">
         <label>Course Goal</label>
-        <input type="text" onChange={goalInputChangeHandler} />
+        <input type="text" value={enteredValue} onChange={goalInputChangeHandler} style={{
+          backgroundColor: isEmptyInput() ? '#fad0ec' : '#fff'
+        }} />
       </div>
-      <Button type="submit">Add Goal</Button>
+      <Button type="submit" disabled={isEmptyInput()}>Add Goal</Button>
     </form>
   );
 };
