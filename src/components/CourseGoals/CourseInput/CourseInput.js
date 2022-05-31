@@ -5,9 +5,11 @@ import './CourseInput.css';
 
 const CourseInput = props => {
   const [enteredValue, setEnteredValue] = useState('');
+  const [defaultState, setDefaultState] = useState(true)
 
   const goalInputChangeHandler = event => {
     setEnteredValue(event.target.value);
+    setDefaultState(false)
   };
 
   const isEmptyInput = () => {
@@ -24,15 +26,14 @@ const CourseInput = props => {
     }
     props.onAddGoal(enteredValue);
     setEnteredValue('')
+    setDefaultState(true)
   };
 
   return (
     <form onSubmit={formSubmitHandler}>
-      <div className="form-control">
+      <div className={`form-control ${isEmptyInput() && !defaultState ? 'invalid' : ''}`}>
         <label>Course Goal</label>
-        <input type="text" value={enteredValue} onChange={goalInputChangeHandler} style={{
-          backgroundColor: isEmptyInput() ? '#fad0ec' : '#fff'
-        }} />
+        <input type="text" value={enteredValue} onChange={goalInputChangeHandler} />
       </div>
       <Button type="submit" disabled={isEmptyInput()}>Add Goal</Button>
     </form>
